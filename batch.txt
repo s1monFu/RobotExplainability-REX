@@ -1,0 +1,8 @@
+go
+walk bus
+walk bus from store to school
+
+invalid
+go invalid
+walk bus from invalid to school
+walk bus from school to 
