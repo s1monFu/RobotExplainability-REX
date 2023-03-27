@@ -8,9 +8,9 @@ class UserInput:
 
     def take_input(self, mode):
         """
-        Takes a string argument representing the input mode ('interactive' or 'batch'), and returns a list of input traces.
+        Takes a string argument representing the input mode ('i for interactive' or 'b for batch'), and returns a list of input traces.
         """
-        if mode == 'interactive':
+        if mode == 'i':
             # prompt user for input
             input_verb = self.get_input_option('Enter a verb:', 'verb')
             input_subject = self.get_input_option('Enter a subject:', 'subject')
@@ -20,7 +20,7 @@ class UserInput:
             input_trace = f"{input_verb} {input_subject} from {input_from} to {input_to}"
             # return list containing single input trace
             return [input_trace]
-        elif mode == 'batch':
+        elif mode == 'b':
             # prompt user for batch file name
             file_name = input('Enter batch file name: ')
             try:
