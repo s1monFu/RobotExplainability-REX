@@ -1,2 +1,2 @@
-go
-go school
+go, living room
+grab, food, living room, bedroom

@@ -54,7 +54,7 @@ class UserInput:
                 with open(file_name) as f:
                     input_traces = f.readlines()
                 for t in input_traces:
-                    words = t.split(" ")
+                    words = t.split(",")
                     template_index = 0
                     current_trace = {"verb": "", "subject": "", "from": "", "to": ""}
                     if len(words) == 1:
@@ -66,12 +66,12 @@ class UserInput:
                         # template_index = 2 
                         current_trace["verb"] = words[0].strip()
                         current_trace["subject"] = words[1].strip()
-                    elif len(words) == 6:
+                    elif len(words) == 4:
                         template_index = 3
                         current_trace["verb"] = words[0].strip()
                         current_trace["subject"] = words[1].strip()
-                        current_trace["from"] = words[3].strip()
-                        current_trace["to"] = words[5].strip()
+                        current_trace["from"] = words[2].strip()
+                        current_trace["to"] = words[3].strip()
                     else:
                         print(f'Invalid input trace: {t}')
                         continue
