@@ -12,7 +12,7 @@ class UserInput:
         self.input_templates = input_templates
         self.input_answers = []
 
-    def take_input(self, mode: str):
+    def take_input(self, mode: str, file_name: str = None):
         """
         Takes a string argument representing the input mode ('i for interactive' or 'b for batch'), and returns a list of input traces.
         """
@@ -47,7 +47,6 @@ class UserInput:
             return self.input_answers
         elif mode == 'b':
             # prompt user for batch file name
-            file_name = input('Enter batch file name: ')
             try:
                 # open and read batch file
                 input_traces = ""
