@@ -54,8 +54,6 @@ class UserInput:
                 valid_traces = []
                 with open(file_name) as f:
                     input_traces = f.readlines()
-                # strip whitespace and filter out invalid input traces
-                
                 for t in input_traces:
                     words = t.split(" ")
                     template_index = 0
