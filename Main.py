@@ -8,7 +8,7 @@ import Scenario
 import sys
 
 # 1. Create Scenario
-input_options = {"verb": ["go", "grab", "inform", "put", "open", "close"], "subject": ["grocery", "food", "cup", "phone", "bike"], "from": [
+input_options = {"verb": ["go", "grab", "inform", "put", "open", "close"], "subject": ["grocery", "food", "cup", "phone", "computer"], "from": [
         "bedroom", "living room", "school", "store", "park"], "to": ["bedroom", "living room", "school", "store", "park"]}
 input_templates = ["[verb]", "[verb] + [subject]", "[verb] + [subject] + from [somewhere] to [somewhere]"]
 scene = Scenario.Scenario("home", "A simulated home scenario", input_options, input_templates)
@@ -33,5 +33,5 @@ syn = Synthesizer.Synthesizer(scene.options, scene.templates)
 actions = syn.synthesize(input_traces,rules)
 
 # 5. provide explanation
-print(actions)
+print(f'Action trace without rules:{actions}')
 
