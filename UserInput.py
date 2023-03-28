@@ -42,7 +42,7 @@ class UserInput:
             else:
                 print('Invalid template number!')
                 return self.take_input(mode)
-            self.input_answers.append(current_ans)
+            self.input_answers.append((template_index,current_ans))
             # return list containing single input trace
             return self.input_answers
         elif mode == 'b':
@@ -58,13 +58,16 @@ class UserInput:
                     template_index = 0
                     current_trace = {"verb": "", "subject": "", "from": "", "to": ""}
                     if len(words) == 1:
+                        template_index = 1
                         current_trace["verb"] = words[0].strip()
                         # template_index = 1
                     elif len(words) == 2:
+                        template_index = 2
                         # template_index = 2 
                         current_trace["verb"] = words[0].strip()
                         current_trace["subject"] = words[1].strip()
                     elif len(words) == 6:
+                        template_index = 3
                         current_trace["verb"] = words[0].strip()
                         current_trace["subject"] = words[1].strip()
                         current_trace["from"] = words[3].strip()
@@ -74,7 +77,7 @@ class UserInput:
                         continue
                     # if self.validate_input(template_index,t.strip()):
                     #     valid_traces.append(t.strip())
-                    self.input_answers.append(current_trace)
+                    self.input_answers.append((template_index,current_trace))
                 # return list of valid input traces
                 return self.input_answers
             except FileNotFoundError:
@@ -100,50 +103,3 @@ class UserInput:
             return self.get_input_option(prompt, option_type)
         # return input option
         return input_option
-
-    def validate_input(self, template_index: int , input_trace: str):
-        """
-        Validates the input trace according to the expected template. Returns True if the input trace is valid, False otherwise.
-        """
-        # split input trace into individual words
-        input_words = input_trace.split()
-
-        # check for template 1
-        if template_index == 1:
-            # check that input trace has expected number of words
-            if len(input_words) != 1:
-                return False
-            # check that input word is a valid option
-            if input_words[0] not in self.input_options["verb"]:
-                return False
-
-        # check for template 2
-        if template_index == 2:
-            # check that input trace has expected number of words
-            if len(input_words) != 2:
-                return False
-            # check that each input word is a valid option
-            if input_words[0] not in self.input_options["verb"]:
-                return False
-            if input_words[1] not in self.input_options["subject"]:
-                return False
-        # check for template 3
-        if template_index == 3:
-            # check that input trace has expected number of words
-            if len(input_words) != 6:
-                return False
-            # check that each input word is a valid option
-            if input_words[0] not in self.input_options["verb"]:
-                return False
-            if input_words[1] not in self.input_options["subject"]:
-                return False
-            if input_words[2] != "from":
-                return False
-            if input_words[3] not in self.input_options["from"]:
-                return False
-            if input_words[4] != "to":
-                return False
-            if input_words[5] not in self.input_options["to"]:
-                return False
-        # input trace is valid
-        return True

@@ -1,20 +1,13 @@
 
 class Rule:
-    def __init__(self, input_options: dict, input_templates: list) -> None:
-        self.input_options = input_options
-        self.input_templates = input_templates
-    
-    def get_input_options(self, input_type: str) -> list:
-        """
-        Takes a string argument representing the input type, and returns a list of valid input options.
-        """
-        return self.input_options[input_type]
-
-    def get_input_template(self, template_index: int) -> str:
-        """
-        Takes an integer argument representing the template index, and returns the corresponding input template.
-        """
-        return self.input_templates[template_index]
+    def __init__(self, rule_name: str, desp: str, rule_type: str, restriction: str) -> None:
+        self.rule_name = rule_name
+        self.desp = desp
+        self.rule_type = rule_type
+        self.restriction = restriction
 
     def apply_rule(self, trace: str) -> str:
         pass
+
+    def __str__(self) -> str:
+        return f"Rule Name: {self.rule_name}, Description: {self.desp}, Type: {self.rule_type}, Restriction: {self.restriction}"
