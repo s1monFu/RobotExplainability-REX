@@ -37,22 +37,32 @@ class Synthesizer:
             restriction = rule.restriction
             conflict = False
             applicable = True
+
+            # Identify if the input is applicable for the rule
+            all = True
             for key in restriction:
-                if key in original_input and original_input[key] != "":
-                    # the value in input conflicts with the restriction in the rules
-                    if original_input[key] in restriction[key]:
-                        violated_rules.add(rule.rid)
-                        if notChanged:
-                            r = random.randint(0, len(self.input_options[key])-1)
-                            # to avoid the same value as before
-                            while input[1][key] == self.input_options[key][r] or self.input_options[key][r] in restriction[key]:
-                                r = (r+1) % len(self.input_options[key])
-                            input[1][key] = self.input_options[key][r]
-                            conflict = True
-                            notChanged = False
-                else:
-                    applicable = False
-            if conflict and applicable:
+                if original_input[key] != "" and original_input[key] not in restriction[key]:
+                    all = False
+            if all == False:
+                continue
+
+            # apply rules
+            for key in restriction:
+                # if key in original_input and original_input[key] != "":
+                #     # the value in input conflicts with the restriction in the rules
+                #     if original_input[key] in restriction[key]:
+                violated_rules.add(rule.rid)
+                if notChanged:
+                    r = random.randint(0, len(self.input_options[key])-1)
+                    # to avoid the same value as before
+                    while input[1][key] == self.input_options[key][r] or self.input_options[key][r] in restriction[key]:
+                        r = (r+1) % len(self.input_options[key])
+                    input[1][key] = self.input_options[key][r]
+                    conflict = True
+                    notChanged = False
+                # else:
+                #     applicable = False
+            if conflict:
                 action_trace = self.synthesize_without_rules(input)
                 # actions_traces.append(action_trace)
         return (list(violated_rules),action_trace)
