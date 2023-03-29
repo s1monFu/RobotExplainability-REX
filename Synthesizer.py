@@ -35,8 +35,8 @@ class Synthesizer:
         action_trace = ""
         for rule in rules:
             restriction = rule.restriction
-            conflict = False
-            applicable = True
+            # conflict = False
+            # applicable = True
 
             # Identify if the input is applicable for the rule
             all = True
@@ -58,12 +58,12 @@ class Synthesizer:
                     while input[1][key] == self.input_options[key][r] or self.input_options[key][r] in restriction[key]:
                         r = (r+1) % len(self.input_options[key])
                     input[1][key] = self.input_options[key][r]
-                    conflict = True
+                    # conflict = True
                     notChanged = False
                 # else:
                 #     applicable = False
-            if conflict:
-                action_trace = self.synthesize_without_rules(input)
+            # if conflict:
+            action_trace = self.synthesize_without_rules(input)
                 # actions_traces.append(action_trace)
         return (list(violated_rules),action_trace)
         
