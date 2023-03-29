@@ -17,9 +17,13 @@ scene = Scenario.Scenario(
 
 # 2. setup rules
 rules = []
-rule = Rules.Rule("mom's rule", "no food in bedroom", "Type 1", {
-                  "subject": ["food"], "to": ["bedroom"]})
-rules.append(rule)
+rules.append(Rules.Rule("mom's rule", "no food in bedroom", "Type 1", {
+                  "subject": ["food"], "to": ["bedroom"]}))
+rules.append(Rules.Rule("dad's rule", "cannot play phone or computer", "Type 1", {
+                  "subject": ["phone","computer"]}))
+rules.append(Rules.Rule("brother's rule", "don't play computer without him", "Type 1", {
+                "subject": ["computer"]}))
+                  
 
 # 3. take in user input
 user_input = UserInput.UserInput(scene.options, scene.templates)
@@ -40,9 +44,10 @@ for action in actions:
     print(f'<<<<<')
     print(f'Action trace without rules: {action[0]}')
     if action[1] != None:
-        print(f'Action trace with rules: {action[1][0][1]}')
-        rule_cnt = action[1][0][0]
-        print(
-            f'Explanation: The original action violates rule {action[1][0][0]}, which is the {rules[rule_cnt].rule_name}')
-        print(f'Rule {rule_cnt} specifies that {rules[rule_cnt].desp}')
+        print(f'Action trace with rules: {action[1][1]}')
+        print("Explanation: ")
+        for rule_cnt in action[1][0]:
+            print(
+                f'The original action violates rule {rule_cnt+1}, which is the {rules[rule_cnt].rule_name}')
+            print(f'{rules[rule_cnt].rule_name} specifies that {rules[rule_cnt].desp}')
     print(f'>>>>>')

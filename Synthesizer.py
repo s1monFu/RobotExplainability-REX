@@ -29,29 +29,37 @@ class Synthesizer:
         # input is a dictionary of {type: value}
         # rules is a list of rule, a restriction is a dictionary of {type: [list of values to be restricted]}
         actions_traces = []
+        original_input = input[1].copy()
+        violated_rules = set()
+        notChanged = True
+        action_trace = ""
         for rule in rules:
             restriction = rule.restriction
-            action_trace = ""
             conflict = False
             applicable = True
-            notChanged = True
             for key in restriction:
-                if key in input[1] and input[1][key] != "":
+                if key in original_input and original_input[key] != "":
                     # the value in input conflicts with the restriction in the rules
-                    if input[1][key] in restriction[key] and notChanged:
-                        r = random.randint(0, len(self.input_options[key])-1)
-                        # to avoid the same value as before
-                        if input[1][key] == self.input_options[key][r]:
-                            r = (r+1) % len(self.input_options[key])
-                        input[1][key] = self.input_options[key][r]
-                        conflict = True
-                        notChanged = False
+                    if original_input[key] in restriction[key]:
+                        violated_rules.add(rule.rid)
+                        if notChanged:
+                            r = random.randint(0, len(self.input_options[key])-1)
+                            # to avoid the same value as before
+                            while input[1][key] == self.input_options[key][r] or self.input_options[key][r] in restriction[key]:
+                                r = (r+1) % len(self.input_options[key])
+                            input[1][key] = self.input_options[key][r]
+                            conflict = True
+                            notChanged = False
                 else:
                     applicable = False
             if conflict and applicable:
                 action_trace = self.synthesize_without_rules(input)
-                actions_traces.append((rule.rid, action_trace))
-        return actions_traces
+                # actions_traces.append(action_trace)
+        return (list(violated_rules),action_trace)
+        
+
+
+            
 
     # def validate_input(self, template_index: int , input_trace: str, ):
     #     """
