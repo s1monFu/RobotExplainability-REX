@@ -1,4 +1,6 @@
 import random
+
+
 class Synthesizer:
     def __init__(self, input_options: dict, input_templates: list) -> None:
         self.input_options = input_options
@@ -15,7 +17,7 @@ class Synthesizer:
             actions.append((action_wor, action_wr))
         return actions
 
-    def synthesize_without_rules(self,input: dict):
+    def synthesize_without_rules(self, input: dict):
         action_trace = input[1]['verb']
         if input[0] == 2 or input[0] == 3:
             action_trace += f" {input[1]['subject']}"
@@ -23,9 +25,9 @@ class Synthesizer:
             action_trace += f" from {input[1]['from']} to {input[1]['to']}"
         return action_trace
 
-    def synthesize_with_rules(self,input: dict, rules: list):
-        #input is a dictionary of {type: value}
-        #rules is a list of rule, a restriction is a dictionary of {type: [list of values to be restricted]}
+    def synthesize_with_rules(self, input: dict, rules: list):
+        # input is a dictionary of {type: value}
+        # rules is a list of rule, a restriction is a dictionary of {type: [list of values to be restricted]}
         actions_traces = []
         for rule in rules:
             restriction = rule.restriction
@@ -40,7 +42,7 @@ class Synthesizer:
                         r = random.randint(0, len(self.input_options[key])-1)
                         # to avoid the same value as before
                         if input[1][key] == self.input_options[key][r]:
-                            r = (r+1)%len(self.input_options[key])
+                            r = (r+1) % len(self.input_options[key])
                         input[1][key] = self.input_options[key][r]
                         conflict = True
                         notChanged = False
@@ -50,7 +52,6 @@ class Synthesizer:
                 action_trace = self.synthesize_without_rules(input)
                 actions_traces.append((rule.rid, action_trace))
         return actions_traces
-    
 
     # def validate_input(self, template_index: int , input_trace: str, ):
     #     """

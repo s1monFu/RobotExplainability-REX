@@ -1,6 +1,7 @@
 
 class Rule:
-    counter = 1
+    counter = 0
+
     def __init__(self, rule_name: str, desp: str, rule_type: str, restriction: dict) -> None:
         self.rid = Rule.counter
         Rule.counter += 1
