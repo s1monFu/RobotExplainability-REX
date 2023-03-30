@@ -8,8 +8,8 @@ import Scenario
 import sys
 
 # 1. Create Scenario
-input_options = {"verb": ["go", "grab", "inform", "put", "open", "close"], "subject": ["grocery", "food", "cup", "phone", "computer"], "from": [
-    "bedroom", "living room", "school", "store", "park"], "to": ["bedroom", "living room", "school", "store", "park"]}
+input_options = {"verb": ["fetch", "grab", "inform", "put", "open", "close"], "subject": ["grocery", "food", "cup", "phone", "computer"], "from": [
+    "bedroom", "living room", "garage","kitchen counter", "store" ], "to": ["bedroom", "living room", "garage", "kitchen counter", "store"]}
 input_templates = ["[verb]", "[verb] + [subject]",
                    "[verb] + [subject] + from [somewhere] to [somewhere]"]
 scene = Scenario.Scenario(
@@ -17,9 +17,9 @@ scene = Scenario.Scenario(
 
 # 2. setup rules
 rules = []
-rules.append(Rules.Rule("mom's rule", "no food in bedroom", "Type 1", {
-                  "subject": ["food"], "to": ["bedroom"]}))
-rules.append(Rules.Rule("dad's rule", "cannot play phone or computer", "Type 1", {
+rules.append(Rules.Rule("mom's rule", "do not touch the kitchen counter", "Type 1", {
+                  "from":["kitchen counter"],"to": ["kitchen counter"]}))
+rules.append(Rules.Rule("dad's rule", "do not play phone or computer", "Type 1", {
                   "subject": ["phone","computer"]}))
 rules.append(Rules.Rule("brother's rule", "don't play computer without him", "Type 1", {
                 "subject": ["computer"]}))
@@ -43,11 +43,13 @@ actions = syn.synthesize(input_traces, rules)
 for action in actions:
     print(f'<<<<<')
     print(f'Action trace without rules: {action[0]}')
-    if action[1] != None:
+    if action[1] != None and action[1][1] != "":
         print(f'Action trace with rules: {action[1][1]}')
         print("Explanation: ")
         for rule_cnt in action[1][0]:
             print(
                 f'The original action violates rule {rule_cnt+1}, which is the {rules[rule_cnt].rule_name}')
             print(f'{rules[rule_cnt].rule_name} specifies that {rules[rule_cnt].desp}')
+    else:
+        print("This action meets all rules!")
     print(f'>>>>>')

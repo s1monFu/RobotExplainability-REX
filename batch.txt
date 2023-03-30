@@ -1,4 +1,3 @@
 go, living room
-grab, phone
 grab, food, living room, bedroom
 grab, computer, living room, bedroom

@@ -31,42 +31,56 @@ class Synthesizer:
         actions_traces = []
         original_input = input[1].copy()
         violated_rules = set()
-        notChanged = True
         action_trace = ""
         for rule in rules:
+            notChanged = True
             restriction = rule.restriction
-            # conflict = False
-            # applicable = True
 
             # Identify if the input is applicable for the rule
             all = True
+            # print(input[1])
+            allcnt = 0
+            violated_keys = []
             for key in restriction:
-                if original_input[key] != "" and original_input[key] not in restriction[key]:
+                # if the value in input is not in the restriction list
+                if original_input[key] == "":
                     all = False
-            if all == False:
+                if original_input[key] != "" and original_input[key] not in restriction[key]:
+                    # print("It's setting all to false")
+                    # print(original_input)
+                    # print(restriction)
+                    allcnt+=1
+                else:
+                    violated_keys.append(key)
+                # if the restriction has more types than the input
+
+            if all == False or allcnt == len(restriction):
+                # print("It's in all continue")
                 continue
 
             # apply rules
-            for key in restriction:
-                # if key in original_input and original_input[key] != "":
-                #     # the value in input conflicts with the restriction in the rules
-                #     if original_input[key] in restriction[key]:
+            for key in violated_keys:
                 violated_rules.add(rule.rid)
                 if notChanged:
                     r = random.randint(0, len(self.input_options[key])-1)
                     # to avoid the same value as before
                     while input[1][key] == self.input_options[key][r] or self.input_options[key][r] in restriction[key]:
-                        r = (r+1) % len(self.input_options[key])
+                        r = random.randint(0, len(self.input_options[key])-1)
                     input[1][key] = self.input_options[key][r]
-                    # conflict = True
                     notChanged = False
-                # else:
-                #     applicable = False
-            # if conflict:
             action_trace = self.synthesize_without_rules(input)
-                # actions_traces.append(action_trace)
         return (list(violated_rules),action_trace)
-        
+
+     # to fix a potential bug: a modified input might be changed to a restricted value in another rule   
+    # def get_validate_input(input, rules, rule):
+    #     cur_rest = rule.restrictions
+    #     for other_rule in rules:
+
+    #     r = random.randint(0, len(self.input_options[key])-1)
+    #                 # to avoid the same value as before
+    #     while input[1][key] == self.input_options[key][r] or self.input_options[key][r] in restriction[key]:
+    #         r = (r+1) % len(self.input_options[key])
+
 
 
             
