@@ -1,6 +1,13 @@
 # Robot Explanbility (REX) - A tool for explaining robot actions
 # run it in interactive mode with python3 Main.py i
 # or run it in batch mode with python3 Main.py b filename
+
+# 1. keywords alternatives: a preferred object if the action conflicts with the rule.
+#   if no alternatives: shut down
+# 2. manipulate the component of rules: different attributes
+# 3. may conflict with a lower priority rule, because it has to satisfy a rule with priority
+
+
 import UserInput
 import Rules
 import Synthesizer
