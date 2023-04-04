@@ -47,6 +47,9 @@ class UserInput:
         for i in range(len(self.input_templates)):
             print(f"{i+1}. {self.input_templates[i]}")
         template_index = int(input('Enter template number: '))
+        if template_index > len(self.input_templates):
+            print("Invalid template number.")
+            return self.get_input_i()
         current_ans = {"verb": "", "subject": "", "from": "",
                        "from_sub": "", "to": "", "to_sub": ""}
         if template_index >= 1:
@@ -67,6 +70,9 @@ class UserInput:
         for i in range(len(self.verbs)):
             print(f"{i+1}. {self.verbs[i]}")
         verb_index = int(input('Enter verb number: '))
+        if verb_index > len(self.verbs):
+            print("Invalid verb number.")
+            return self.get_verb_input()
         return self.verbs[verb_index-1]
 
     def get_location_input(self, location_type: str):
@@ -74,17 +80,21 @@ class UserInput:
         for i in range(len(self.locations)):
             print(f"{i+1}. {self.locations[i].name}")
         loc_index = int(input('Enter location number: '))
-
+        if loc_index > len(self.locations):
+            print("Invalid location number.")
+            return self.get_location_input(location_type)
         if len(self.locations[loc_index-1].ungrabable) > 0:
             print(f'Choose a {location_type} sub-location: ')
             for i in range(len(self.locations[loc_index-1].ungrabable)):
                 print(f"{i+1}. {self.locations[loc_index-1].ungrabable[i].name}")
             sub_loc_index = int(input('Enter sub-location number: '))
+            if sub_loc_index > len(self.locations[loc_index-1].ungrabable):
+                print("Invalid sub-location number.")
+                return self.get_location_input(location_type)
             # returns a location and ungrabable object pair
             return (self.locations[loc_index-1], self.locations[loc_index-1].ungrabable[sub_loc_index-1])
         
         return (self.locations[loc_index-1], None)
-        
         
 
     def get_object_input(self):
@@ -92,6 +102,9 @@ class UserInput:
         for i in range(len(self.grabable)):
             print(f"{i+1}. {self.grabable[i].name}")
         obj_index = int(input('Enter object number: '))
+        if obj_index > len(self.grabable):
+            print("Invalid object number.")
+            return self.get_object_input()
         return self.grabable[obj_index-1]
 
     def get_input_b(self, file_name: str):
