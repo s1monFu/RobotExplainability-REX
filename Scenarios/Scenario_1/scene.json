@@ -1,0 +1,15 @@
+{
+  "name": "Scene 1",
+  "desp": "The first Scenario",
+  "options": {
+    "verb": ["fetch", "grab", "inform", "put", "open", "close"],
+    "subject": ["grocery", "food", "cup", "phone", "computer"],
+    "from": ["bedroom", "living room", "garage", "kitchen counter", "store"],
+    "to": ["bedroom", "living room", "garage", "kitchen counter", "store"]
+  },
+  "templates": [
+    "[verb]",
+    "[verb] + [subject]",
+    "[verb] + [subject] + from [somewhere] to [somewhere]"
+  ]
+}

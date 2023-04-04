@@ -9,10 +9,11 @@
 
 
 import UserInput
-import Rules
+import Rule
 import Synthesizer
 import Scenario
 import sys
+import os
 
 # 1. Create Scenario
 input_options = {"verb": ["fetch", "grab", "inform", "put", "open", "close"], "subject": ["grocery", "food", "cup", "phone", "computer"], "from": [
@@ -24,13 +25,13 @@ scene = Scenario.Scenario(
 
 # 2. setup rules
 rules = []
-rules.append(Rules.Rule("mom's rule", "do not touch the kitchen counter", "Type 1", {
+rules.append(Rule.Rule("mom's rule", "do not touch the kitchen counter", "Type 1", {
                   "from":["kitchen counter"],"to": ["kitchen counter"]}))
-rules.append(Rules.Rule("dad's rule", "do not play phone or computer", "Type 1", {
+rules.append(Rule.Rule("dad's rule", "do not play phone or computer", "Type 1", {
                   "subject": ["phone","computer"]}))
-rules.append(Rules.Rule("brother's rule", "don't play computer without him", "Type 1", {
+rules.append(Rule.Rule("brother's rule", "don't play computer without him", "Type 1", {
                 "subject": ["computer"]}))
-                  
+scene.set_rules( rules)
 
 # 3. take in user input
 user_input = UserInput.UserInput(scene.options, scene.templates)
