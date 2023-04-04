@@ -19,5 +19,5 @@ class Object:
 
     def __eq__(self, other):
         if isinstance(other, Object):
-            return self.name == other.name
+            return self.id == other.id
         return False

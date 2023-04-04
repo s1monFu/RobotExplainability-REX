@@ -1,3 +1,1 @@
-fetch, grovery, garage, kitchen counter
-grab, phone, living room, bedroom
-grab, computer, kitchen counter, living room
+grab, grovery, garage, kitchen counter
