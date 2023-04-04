@@ -1,9 +1,9 @@
 class Location:
-    def __init__(self,name:str, desp:str):
+    def __init__(self, name: str, desp: str):
         self.name = name
         self.desp = desp
         self.objects = []
-    
+
     def add_object(self, obj: str):
         self.objects.append(obj)
 
@@ -11,3 +11,9 @@ class Location:
         if isinstance(__o, Location):
             return self.name == __o.name
         return False
+
+    def __str__(self) -> str:
+        obj_str = ""
+        for obj in self.objects:
+            obj_str += str(obj) + "; "
+        return f"<name: {self.name}, objects: {obj_str}>"

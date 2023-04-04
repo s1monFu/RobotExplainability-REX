@@ -1,0 +1,16 @@
+{
+  "locations": [
+    {
+      "name": "garage",
+      "desp": "This is the garage"
+    },
+    {
+      "name": "kitchen",
+      "desp": "This is the kitchen"
+    },
+    {
+      "name": "living room",
+      "desp": "This is the living room"
+    }
+  ]
+}

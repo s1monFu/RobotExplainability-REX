@@ -9,7 +9,7 @@ class Scenario:
     def __init__(self):
         self.name = None
         self.desp = None
-        self.options = None
+        self.verbs = None
         self.templates = None
         self.rules = []
         self.objects = []
@@ -24,7 +24,7 @@ class Scenario:
             data = json.load(f)
             self.name = data["name"]
             self.desp = data["desp"]
-            self.options = data["options"]
+            self.verbs = data["verbs"]
             self.templates = data["templates"]
 
         # load rules
@@ -34,6 +34,35 @@ class Scenario:
                 self.rules.append(Rule.Rule(
                     rule["rule_name"], rule["desp"], rule["rule_type"], rule["restriction"]))
 
+        # load locations
+        with open(os.path.join(path, "locations.json"), 'r') as f:
+            data = json.load(f)
+            for loc in data["locations"]:
+                self.locations.append(Location.Location(
+                    loc["name"], loc["desp"]))
+
+        # # load objects
+        with open(os.path.join(path, "objects.json"), 'r') as f:
+            data = json.load(f)
+            for obj in data["objects"]:
+                for loc in self.locations:
+                    if loc.name == obj["location"]:
+                        new_obj = Object.Object(
+                            obj["id"], obj["type"], obj["name"], obj["desp"], loc, obj["alternatives"])
+                        self.objects.append(new_obj)
+                        loc.add_object(new_obj)
 
     def __str__(self) -> str:
-        return f"Scenario Name: {self.name},\n Description: {self.desp},\n Options: {self.options},\n Templates: {self.templates}\n"
+        rules = ""
+        for rule in self.rules:
+            rules += str(rule) + "; "
+        objects = ""
+        for obj in self.objects:
+            objects += str(obj) + "; "
+        locations = ""
+        for loc in self.locations:
+            locations += str(loc) + "; "
+        return f"Scenario Name: {self.name},\n Description: {self.desp},\n Verb Options: {self.verbs},\n Templates: {self.templates}\n " +\
+            ">>>>>\n" +\
+            f"Rules: {rules}\n Objects: {objects}\n Locations: {locations}\n" +\
+            "<<<<<\n"
