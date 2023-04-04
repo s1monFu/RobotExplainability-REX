@@ -51,6 +51,10 @@ class Scenario:
                             obj["id"], obj["type"], obj["name"], obj["desp"], loc, obj["alternatives"])
                         self.objects.append(new_obj)
                         loc.add_object(new_obj)
+                        if obj["type"] == "grabable":
+                            loc.grabable.append(new_obj)
+                        else:
+                            loc.ungrabable.append(new_obj)
 
     def __str__(self) -> str:
         rules = ""

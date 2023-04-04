@@ -1,10 +1,12 @@
 import random
-
+from Scenario import Scenario
 
 class Synthesizer:
-    def __init__(self, input_options: dict, input_templates: list) -> None:
-        self.input_options = input_options
-        self.input_templates = input_templates
+    def __init__(self, scene:Scenario) -> None:
+        self.verbs = scene.verbs
+        self.input_templates = scene.templates
+        self.objects = scene.objects
+        self.locations = scene.locations
 
     def synthesize(self, input_answers: list, rules: list) -> list:
         actions = []

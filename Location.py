@@ -3,6 +3,8 @@ class Location:
         self.name = name
         self.desp = desp
         self.objects = []
+        self.grabable = []
+        self.ungrabable = []
 
     def add_object(self, obj: str):
         self.objects.append(obj)

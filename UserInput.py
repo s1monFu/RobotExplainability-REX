@@ -2,16 +2,100 @@
 # Author: Simon Fu
 # Function: Takes user input, validates it, and generate an input trace.
 
+from Scenario import Scenario
+from Location import Location
+
+
 class UserInput:
     """
     Takes user input, validates it, and generates an input trace.
     input_options: A list of valid input options dictionary {type: [list of options]}.
     """
 
-    def __init__(self, input_options: dict, input_templates: list):
-        self.input_options = input_options
-        self.input_templates = input_templates
+    def __init__(self):
+        self.verbs = None
+        self.input_templates = None
+        self.grabable = []
+        self.ungrabable = []
+        self.locations = []
         self.input_answers = []
+
+    def load_from_scene(self, scene: Scenario):
+        self.verbs = scene.verbs
+        self.input_templates = scene.templates
+        for obj in scene.objects:
+            if obj.type == "grabable":
+                self.grabable.append(obj)
+            else:
+                self.ungrabable.append(obj)
+        for loc in scene.locations:
+            self.locations.append(loc)
+
+    def get_input(self, mode: str, file_name: str = None):
+        input_dict = {}
+        if mode == 'i':
+            input_dict = self.get_input_i()
+        else:
+            input_dict = self.get_input_b(file_name)
+        for input in input_dict:
+            continue
+        return input_dict
+
+    def get_input_i(self):
+        # choose input template
+        print('Choose an input template:')
+        for i in range(len(self.input_templates)):
+            print(f"{i+1}. {self.input_templates[i]}")
+        template_index = int(input('Enter template number: '))
+        current_ans = {"verb": "", "subject": "", "from": "",
+                       "from_sub": "", "to": "", "to_sub": ""}
+        if template_index >= 1:
+            current_ans["verb"] = self.get_verb_input()
+        if template_index >= 2:
+            current_ans["subject"] = self.get_object_input()
+        if template_index == 3:
+            from_ans = self.get_location_input("from")
+            current_ans["from"] = from_ans[0]
+            current_ans["from_sub"] = from_ans[1]
+            to_ans = self.get_location_input("to")
+            current_ans["to"] = to_ans[0]
+            current_ans["to_sub"] = to_ans[1]
+        return current_ans
+
+    def get_verb_input(self):
+        print('Choose a verb:')
+        for i in range(len(self.verbs)):
+            print(f"{i+1}. {self.verbs[i]}")
+        verb_index = int(input('Enter verb number: '))
+        return self.verbs[verb_index-1]
+
+    def get_location_input(self, location_type: str):
+        print(f'Choose a {location_type} location:')
+        for i in range(len(self.locations)):
+            print(f"{i+1}. {self.locations[i].name}")
+        loc_index = int(input('Enter location number: '))
+
+        if len(self.locations[loc_index-1].ungrabable) > 0:
+            print(f'Choose a {location_type} sub-location: ')
+            for i in range(len(self.locations[loc_index-1].ungrabable)):
+                print(f"{i+1}. {self.locations[loc_index-1].ungrabable[i].name}")
+            sub_loc_index = int(input('Enter sub-location number: '))
+            # returns a location and ungrabable object pair
+            return (self.locations[loc_index-1], self.locations[loc_index-1].ungrabable[sub_loc_index-1])
+        
+        return (self.locations[loc_index-1], None)
+        
+        
+
+    def get_object_input(self):
+        print(f'Choose a grabable object:')
+        for i in range(len(self.grabable)):
+            print(f"{i+1}. {self.grabable[i].name}")
+        obj_index = int(input('Enter object number: '))
+        return self.grabable[obj_index-1]
+
+    def get_input_b(self, file_name: str):
+        pass
 
     def take_input(self, mode: str, file_name: str = None):
         """
