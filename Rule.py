@@ -11,5 +11,6 @@ class Rule:
         # A restriction is a dictionary of {type: [list of values to be restricted]}
         self.restriction = restriction
 
+
     def __str__(self) -> str:
         return f"Rule Name: {self.rule_name}, Description: {self.desp}, Type: {self.rule_type}, Restriction: {self.restriction}"

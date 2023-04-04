@@ -15,28 +15,14 @@ import Scenario
 import sys
 import os
 
-# 1. Create Scenario
-input_options = {"verb": ["fetch", "grab", "inform", "put", "open", "close"], "subject": ["grocery", "food", "cup", "phone", "computer"], "from": [
-    "bedroom", "living room", "garage","kitchen counter", "store" ], "to": ["bedroom", "living room", "garage", "kitchen counter", "store"]}
-input_templates = ["[verb]", "[verb] + [subject]",
-                   "[verb] + [subject] + from [somewhere] to [somewhere]"]
-scene = Scenario.Scenario(
-    "home", "A simulated home scenario", input_options, input_templates)
+# 1. load scenario
+scene = Scenario.Scenario()
+scene.load(1)
 
-# 2. setup rules
-rules = []
-rules.append(Rule.Rule("mom's rule", "do not touch the kitchen counter", "Type 1", {
-                  "from":["kitchen counter"],"to": ["kitchen counter"]}))
-rules.append(Rule.Rule("dad's rule", "do not play phone or computer", "Type 1", {
-                  "subject": ["phone","computer"]}))
-rules.append(Rule.Rule("brother's rule", "don't play computer without him", "Type 1", {
-                "subject": ["computer"]}))
-scene.set_rules( rules)
-
-# 3. take in user input
+# 2. take in user input
 user_input = UserInput.UserInput(scene.options, scene.templates)
 
-# choose input mode
+## choose input mode
 input_mode = sys.argv[1]
 file_name = None
 if input_mode == 'b':
@@ -45,6 +31,7 @@ input_traces = user_input.take_input(input_mode, file_name)
 
 # 4. run synthesizer
 syn = Synthesizer.Synthesizer(scene.options, scene.templates)
+rules = scene.rules
 actions = syn.synthesize(input_traces, rules)
 
 # 5. provide explanation

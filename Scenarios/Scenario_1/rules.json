@@ -1,0 +1,21 @@
+{
+  "rules": [
+    {
+      "rule_name": "mom's rule",
+      "desp": "mom said painting of kitchen counter is in progress, so nobody should touch",
+      "rule_type": "Multiparty interactions",
+      "restriction": {
+        "from": ["kitchen counter"],
+        "to": ["kitchen counter"]
+      }
+    },
+    {
+      "rule_name": "dad's rule",
+      "desp": "do not play phone or computer",
+      "rule_type": "Multiparty interactions",
+      "restriction": {
+        "subject": ["phone", "computer"]
+      }
+    }
+  ]
+}
