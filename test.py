@@ -1,34 +1,13 @@
-import UserInput
-import Rules
-import Synthesizer
+import heapq
 
-input_options = {"verb": ["go", "grab", "inform", "put", "open", "close"], "subject": ["grocery", "food", "cup", "phone", "bike"], "from": [
-    "bedroom", "living room", "school", "store", "park"], "to": ["bedroom", "living room", "school", "store", "park"]}
-input_templates = ["[verb]", "[verb] + [subject]",
-                   "[verb] + [subject] + from [somewhere] to [somewhere]"]
+# Create an empty heap
+heap = []
 
-# rule test
-rule = Rules.Rule("mom's rule", "no food in bedroom", "Type 1", {
-                  "subject": ["food"], "to": ["bedroom"]})
-print(rule)
-rules = [rule]
+# Add items to the heap with custom priorities
+heapq.heappush(heap, (2, 'item2'))
+heapq.heappush(heap, (1, 'item1'))
+heapq.heappush(heap, (3, 'item3'))
 
-user_input = UserInput.UserInput(input_options, input_templates)
-
-# interactive mode test
-# input_traces = user_input.take_input('i')
-# print("input traces")
-# print(input_traces)
-
-
-# batch mode test
-input_traces = user_input.take_input('b')
-print("input traces")
-print(input_traces)
-
-# synthesizer test
-syn = Synthesizer.Synthesizer(
-    input_options=input_options, input_templates=input_templates)
-actions = syn.synthesize(input_traces, rules)
-print("action traces")
-print(actions)
+# Get the smallest item from the heap
+print(heapq.heappop(heap))
+print(heapq.heappop(heap))
