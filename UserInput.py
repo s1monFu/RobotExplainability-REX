@@ -102,6 +102,9 @@ class UserInput:
         return (self.locations[loc_index-1], self.locations[loc_index-1].ungrabable[sub_loc_index-1])
         
 
+    ## Right now, the object and the location does not really match
+    ## a user can pick an object that's not in the from location
+    ## future work: disallow user to choose from location, and automatically set from to the current location of the object
     def get_object_input(self):
         print(f'Choose a grabable object:')
         for i in range(len(self.grabable)):

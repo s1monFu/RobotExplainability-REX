@@ -2,8 +2,9 @@ import random
 from Scenario import Scenario
 from Rule import Rule
 
+
 class Synthesizer:
-    def __init__(self, scene:Scenario) -> None:
+    def __init__(self, scene: Scenario) -> None:
         self.cur_scene = scene
         self.verbs = scene.verbs
         self.input_templates = scene.templates
@@ -50,12 +51,54 @@ class Synthesizer:
             action_trace += f" from {from_str} to {to_str}"
         return action_trace
 
-    # def synthesize_W_rules(self, input:dict):
-        
-    #     # start from the beginning of the rule queue. Rules at the front have lower priority
-    #     # they are handled first because later rules will cover their change to ealier rules
-    #     for rule in self.rules_queue:
-            
+    def synthesize_W_rules(self, input: dict):
+        # start from the beginning of the rule queue. Rules at the front have lower priority
+        # they are handled first because later rules will cover their change to ealier rules
+        output = input.copy()
+        for rule in self.rules_queue:
+            # check the type of the rule
+            if rule.rule_type == "positive":
+                output = self.syn_w_pos_rule(output, rule)
+            elif rule.rule_type == "negative":
+                output = self.syn_w_neg_rule(output)
+
+        # the output will be the same format as the input, but with correct values after the chagne of the rules
+        return self.synthesize_without_rules(output)
+
+    def syn_w_neg_rule(self, input:dict, rule: Rule):
+        # check if this rule is compatible to the input
+        compatible = self.check_compatibility(input,rule)
+        if not compatible:
+            return input
+        # 2. check if the object in input is in the restriction list
+        # check for each value type
+        # if it is, find an alternative in the object's alternative list
+        # if not, then this input is compatible with the rule
+        for rest in rule.restriction:
+            if rest in input:
+                if input[rest] in rule.restriction[rest]:
+                    # if no alternative, randomly choose one from the object list
+                    if len(input[rest].alternatives) == 0:
+                        return input
+                    # if there is an alternative, then change the value in input
+                    else:
+                        input[rest] = random.choice(input[rest].alternatives)
+                        return input
+
+        pass
+    
+    def check_compatibility(self, input: dict, rule: Rule) -> bool:
+        # 1. check if this rule is compatible to the input
+        # if all types in rule are also in the input, then it's compatible
+        # if not, skip this rule
+        for rest in rule.restriction:
+            if rest not in input:
+                return False
+        return True
+
+    def syn_w_pos_rule(self, input: dict, rule: Rule):
+        # 3. if a restriction has "" in one of the types, that means that if a -
+        pass
 
     def synthesize_with_rules(self, input: dict):
         # input is a dictionary of {type: value}
@@ -81,7 +124,7 @@ class Synthesizer:
                     # print("It's setting all to false")
                     # print(original_input)
                     # print(restriction)
-                    allcnt+=1
+                    allcnt += 1
                 else:
                     violated_keys.append(key)
                 # if the restriction has more types than the input
@@ -101,6 +144,6 @@ class Synthesizer:
                     input[1][key] = self.input_options[key][r]
                     notChanged = False
             action_trace = self.synthesize_without_rules(input)
-        return (list(violated_rules),action_trace)
+        return (list(violated_rules), action_trace)
 
-     # to fix a potential bug: a modified input might be changed to a restricted value in another rule   
+     # to fix a potential bug: a modified input might be changed to a restricted value in another rule

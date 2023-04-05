@@ -3,7 +3,7 @@
     {
       "rule_name": "mom's rule",
       "desp": "mom said painting of kitchen counter is in progress, so nobody should touch",
-      "rule_type": "Multiparty interactions",
+      "rule_type": "negative",
       "restriction": {
         "from": ["kitchen"],
         "from_sub": ["counter"],
@@ -15,9 +15,9 @@
     {
       "rule_name": "dad's rule",
       "desp": "do not play phone or computer",
-      "rule_type": "Multiparty interactions",
+      "rule_type": "positive",
       "restriction": {
-        "subject": ["phone", "computer"]
+        "to_sub": ["chair"]
       },
       "priority": 1
     }
