@@ -1,40 +1,70 @@
 import random
 from Scenario import Scenario
+from Rule import Rule
 
 class Synthesizer:
     def __init__(self, scene:Scenario) -> None:
+        self.cur_scene = scene
         self.verbs = scene.verbs
         self.input_templates = scene.templates
         self.objects = scene.objects
         self.locations = scene.locations
+        # an ordered list of rules. Each element is a tuple of (priority: int, rule)
+        # rules with higher priority have a higher priority index, and are at the end of the list
+        self.rules_queue = scene.rules
+        self.rules_queue.sort(key=lambda x: x.priority, reverse=False)
 
-    def synthesize(self, input_answers: list, rules: list) -> list:
+    def print_rules(self):
+        for rule in self.rules_queue:
+            print(rule)
+
+    def change_rule_priority(self, rid: int, new_priority: int):
+        for rule in self.rules_queue:
+            if rule.rid == rid:
+                rule.priority = new_priority
+                break
+        self.rules_queue.sort(key=lambda x: x.priority, reverse=False)
+
+    def synthesize(self, input_answers: list) -> list:
         actions = []
         for input in input_answers:
             # an action without any rules
             action_wor = self.synthesize_without_rules(input)
             # a list of actions, each with a rule
-            action_wr = self.synthesize_with_rules(input, rules)
+            action_wr = self.synthesize_with_rules(input)
 
             actions.append((action_wor, action_wr))
         return actions
 
     def synthesize_without_rules(self, input: dict):
-        action_trace = input[1]['verb']
-        if input[0] == 2 or input[0] == 3:
-            action_trace += f" {input[1]['subject']}"
-        if input[0] == 3:
-            action_trace += f" from {input[1]['from']} to {input[1]['to']}"
+        action_trace = input['verb']
+        if input["index"] >= 2:
+            action_trace += f" {input['subject'].name}"
+        if input["index"] == 3:
+            from_str = input["from"].name
+            if input["from_sub"] != None:
+                from_str += f" {input['from_sub'].name}"
+            to_str = input["to"].name
+            if input["to_sub"] != None:
+                to_str += f" {input['to_sub'].name}"
+            action_trace += f" from {from_str} to {to_str}"
         return action_trace
 
-    def synthesize_with_rules(self, input: dict, rules: list):
+    # def synthesize_W_rules(self, input:dict):
+        
+    #     # start from the beginning of the rule queue. Rules at the front have lower priority
+    #     # they are handled first because later rules will cover their change to ealier rules
+    #     for rule in self.rules_queue:
+            
+
+    def synthesize_with_rules(self, input: dict):
         # input is a dictionary of {type: value}
         # rules is a list of rule, a restriction is a dictionary of {type: [list of values to be restricted]}
         actions_traces = []
         original_input = input[1].copy()
         violated_rules = set()
         action_trace = ""
-        for rule in rules:
+        for rule in self.rules_queue:
             notChanged = True
             restriction = rule.restriction
 
@@ -74,62 +104,3 @@ class Synthesizer:
         return (list(violated_rules),action_trace)
 
      # to fix a potential bug: a modified input might be changed to a restricted value in another rule   
-    # def get_validate_input(input, rules, rule):
-    #     cur_rest = rule.restrictions
-    #     for other_rule in rules:
-
-    #     r = random.randint(0, len(self.input_options[key])-1)
-    #                 # to avoid the same value as before
-    #     while input[1][key] == self.input_options[key][r] or self.input_options[key][r] in restriction[key]:
-    #         r = (r+1) % len(self.input_options[key])
-
-
-
-            
-
-    # def validate_input(self, template_index: int , input_trace: str, ):
-    #     """
-    #     Validates the input trace according to the expected template. Returns True if the input trace is valid, False otherwise.
-    #     """
-    #     # split input trace into individual words
-    #     input_words = input_trace.split()
-
-    #     # check for template 1
-    #     if template_index == 1:
-    #         # check that input trace has expected number of words
-    #         if len(input_words) != 1:
-    #             return False
-    #         # check that input word is a valid option
-    #         if input_words[0] not in self.input_options["verb"]:
-    #             return False
-
-    #     # check for template 2
-    #     if template_index == 2:
-    #         # check that input trace has expected number of words
-    #         if len(input_words) != 2:
-    #             return False
-    #         # check that each input word is a valid option
-    #         if input_words[0] not in self.input_options["verb"]:
-    #             return False
-    #         if input_words[1] not in self.input_options["subject"]:
-    #             return False
-    #     # check for template 3
-    #     if template_index == 3:
-    #         # check that input trace has expected number of words
-    #         if len(input_words) != 6:
-    #             return False
-    #         # check that each input word is a valid option
-    #         if input_words[0] not in self.input_options["verb"]:
-    #             return False
-    #         if input_words[1] not in self.input_options["subject"]:
-    #             return False
-    #         if input_words[2] != "from":
-    #             return False
-    #         if input_words[3] not in self.input_options["from"]:
-    #             return False
-    #         if input_words[4] != "to":
-    #             return False
-    #         if input_words[5] not in self.input_options["to"]:
-    #             return False
-    #     # input trace is valid
-    #     return True

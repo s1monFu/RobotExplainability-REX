@@ -5,9 +5,12 @@
       "desp": "mom said painting of kitchen counter is in progress, so nobody should touch",
       "rule_type": "Multiparty interactions",
       "restriction": {
-        "from": ["kitchen counter"],
-        "to": ["kitchen counter"]
-      }
+        "from": ["kitchen"],
+        "from_sub": ["counter"],
+        "to": ["kitchen"],
+        "to_sub": ["counter"]
+      },
+      "priority": 2
     },
     {
       "rule_name": "dad's rule",
@@ -15,7 +18,8 @@
       "rule_type": "Multiparty interactions",
       "restriction": {
         "subject": ["phone", "computer"]
-      }
+      },
+      "priority": 1
     }
   ]
 }

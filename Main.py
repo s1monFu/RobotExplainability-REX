@@ -27,7 +27,7 @@ input_mode = sys.argv[1]
 file_name = None
 if input_mode == 'b':
     file_name = sys.argv[2]
-input_traces = user_input.take_input(input_mode, file_name)
+input_traces = user_input.get_input(input_mode, file_name)
 
 # 4. run synthesizer
 syn = Synthesizer.Synthesizer(scene.options, scene.templates)

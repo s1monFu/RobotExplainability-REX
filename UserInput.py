@@ -52,7 +52,7 @@ class UserInput:
         if template_index > len(self.input_templates):
             print("Invalid template number.")
             return self.get_input_i()
-        current_ans = {"verb": "", "subject": "", "from": "",
+        current_ans = {"index":template_index,"verb": "", "subject": "", "from": "",
                        "from_sub": "", "to": "", "to_sub": ""}
         if template_index >= 1:
             current_ans["verb"] = self.get_verb_input()
@@ -87,7 +87,7 @@ class UserInput:
             return self.get_location_input(location_type)
         
         # sublocation
-        if len(self.locations[loc_index-1].grabable) == 0:
+        if len(self.locations[loc_index-1].ungrabable) == 0:
             return (self.locations[loc_index-1], None)
         
         print(f'Choose a {location_type} sub-location: ')
