@@ -5,16 +5,14 @@
       "desp": "mom said painting of kitchen counter is in progress, so nobody should touch",
       "rule_type": "negative",
       "restriction": {
-        "from": ["kitchen"],
-        "from_sub": ["counter"],
-        "to": ["kitchen"],
+        "from_sub":["counter"],
         "to_sub": ["counter"]
       },
       "priority": 2
     },
     {
-      "rule_name": "dad's rule",
-      "desp": "do not play phone or computer",
+      "rule_name": "2nd rule",
+      "desp": "if ",
       "rule_type": "positive",
       "restriction": {
         "to_sub": ["chair"]

@@ -8,43 +8,45 @@
 # 3. may conflict with a lower priority rule, because it has to satisfy a rule with priority
 
 
-import UserInput
-import Rule
-import Synthesizer
-import Scenario
+
+from Scenario import Scenario
+from UserInput import UserInput
+from Synthesizer import Synthesizer
 import sys
 import os
-
 # 1. load scenario
-scene = Scenario.Scenario()
+scene = Scenario()
 scene.load(1)
 
 # 2. take in user input
-user_input = UserInput.UserInput(scene.options, scene.templates)
+userinput = UserInput()
+userinput.load_from_scene(scene)
 
 ## choose input mode
 input_mode = sys.argv[1]
+if input_mode not in ['i', 'b']:
+    print("Wrong commandline argumnt")
+    print("Run the program with command line argument i for interactive mode and b for batch mode")
 file_name = None
 if input_mode == 'b':
     file_name = sys.argv[2]
-input_traces = user_input.get_input(input_mode, file_name)
+userinput.get_input(input_mode, file_name)
 
 # 4. run synthesizer
-syn = Synthesizer.Synthesizer(scene.options, scene.templates)
-rules = scene.rules
-actions = syn.synthesize(input_traces, rules)
+syn = Synthesizer(scene)
+actions = syn.synthesize(userinput.input_answers)
 
 # 5. provide explanation
 for action in actions:
     print(f'<<<<<')
     print(f'Action trace without rules: {action[0]}')
     if action[1] != None and action[1][1] != "":
-        print(f'Action trace with rules: {action[1][1]}')
+        print(f'Action trace with rules: {action[1][0]}')
         print("Explanation: ")
-        for rule_cnt in action[1][0]:
+        for rule in action[1][1]:
             print(
-                f'The original action violates rule {rule_cnt+1}, which is the {rules[rule_cnt].rule_name}')
-            print(f'{rules[rule_cnt].rule_name} specifies that {rules[rule_cnt].desp}')
+                f'The original action violates the rule {rule.rid}, which is the {rule.rule_name}')
+            print(f'{rule.rule_name} specifies that {rule.desp}')
     else:
         print("This action meets all rules!")
     print(f'>>>>>')

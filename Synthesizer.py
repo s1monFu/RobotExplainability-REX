@@ -32,7 +32,7 @@ class Synthesizer:
             # an action without any rules
             action_wor = self.synthesize_without_rules(input)
             # a list of actions, each with a rule
-            action_wr = self.synthesize_with_rules(input)
+            action_wr = self.synthesize_W_rules(input)
 
             actions.append((action_wor, action_wr))
         return actions
@@ -55,50 +55,83 @@ class Synthesizer:
         # start from the beginning of the rule queue. Rules at the front have lower priority
         # they are handled first because later rules will cover their change to ealier rules
         output = input.copy()
+        violated_rules = []
         for rule in self.rules_queue:
             # check the type of the rule
+            rule_compatible = None
             if rule.rule_type == "positive":
-                output = self.syn_w_pos_rule(output, rule)
+                output, rule_compatible  = self.syn_w_pos_rule(output, rule)
             elif rule.rule_type == "negative":
-                output = self.syn_w_neg_rule(output)
+                output, rule_compatible = self.syn_w_neg_rule(output, rule)
+                # print("output>>>>>")
+                # print(output)
+                # print(rule_compatible)
+                # print("output<<<<<")
+            # if rule not compatible or not violated, just continue
+            if not rule_compatible:
+                continue
+            # rule violated
+            violated_rules.append(rule)
 
         # the output will be the same format as the input, but with correct values after the chagne of the rules
-        return self.synthesize_without_rules(output)
+        return (self.synthesize_without_rules(output), violated_rules)
 
-    def syn_w_neg_rule(self, input:dict, rule: Rule):
+    def syn_w_neg_rule(self, input: dict, rule: Rule):
         # check if this rule is compatible to the input
-        compatible = self.check_compatibility(input,rule)
+        compatible = self.check_compatibility(input, rule)
         if not compatible:
-            return input
+            # print("compatible>>>>>")
+            # print(compatible)
+            # print("compatible<<<<<")
+            return (input, False)
+        rule_violated = False
         # 2. check if the object in input is in the restriction list
         # check for each value type
         # if it is, find an alternative in the object's alternative list
         # if not, then this input is compatible with the rule
+        # print("rule.restriction>>>>>")
+        # print(rule.restriction)
+        # print("rule.restriction<<<<<")
+        # print("input>>>>>")        
+        # print(input)
+        # print("input<<<<<")        
         for rest in rule.restriction:
-            if rest in input:
-                if input[rest] in rule.restriction[rest]:
-                    # if no alternative, randomly choose one from the object list
-                    if len(input[rest].alternatives) == 0:
-                        return input
-                    # if there is an alternative, then change the value in input
-                    else:
-                        input[rest] = random.choice(input[rest].alternatives)
-                        return input
+            if input[rest]!= None and input[rest].name in rule.restriction[rest]:
+                rule_violated = True
+                # if the input is restricted, different policy for different types of value
+                if rest == "to_sub":
+                    # print("in replace to sub>>>>>")
+                    input = self.replace_to_sub(input)
+                    # print("in replace to sub<<<<<")
+        return (input, rule_violated)
 
-        pass
-    
+    def replace_to_sub(self, input: dict) -> dict:
+        # if no alternatives to replace
+        if len(input["to_sub"].alternatives) == 0:
+            input["to_sub"] = ""
+            return input
+        # the first in the alternative list is the choice
+        alt_idx = input["to_sub"].alternatives[0]
+        # find the object in the overall object list
+        for obj in self.objects:
+            if obj.id == alt_idx:
+                input["to_sub"] = obj
+                return input
+        
+
     def check_compatibility(self, input: dict, rule: Rule) -> bool:
         # 1. check if this rule is compatible to the input
         # if all types in rule are also in the input, then it's compatible
         # if not, skip this rule
+        compatible = False
         for rest in rule.restriction:
-            if rest not in input:
-                return False
-        return True
+            if rest in input and input[rest] != None:
+                compatible = True
+        return compatible
 
     def syn_w_pos_rule(self, input: dict, rule: Rule):
         # 3. if a restriction has "" in one of the types, that means that if a -
-        pass
+        return (input, False)
 
     def synthesize_with_rules(self, input: dict):
         # input is a dictionary of {type: value}
