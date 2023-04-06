@@ -14,4 +14,4 @@ class Rule:
 
 
     def __str__(self) -> str:
-        return f"<rid: {self.rid}, name: {self.rule_name}, priority: {self.priority}, restriction: {self.restriction}>"
+        return f"<rule name: {self.rule_name}\n - priority: {self.priority}\n - description: {self.desp}>"

@@ -56,6 +56,7 @@ class Synthesizer:
         # they are handled first because later rules will cover their change to ealier rules
         output = input.copy()
         violated_rules = []
+        change_trace = []
         for rule in self.rules_queue:
             # check the type of the rule
             rule_compatible = None
@@ -69,11 +70,12 @@ class Synthesizer:
                 continue
             # rule violated
             violated_rules.append(rule)
+            change_trace.append(self.synthesize_without_rules(output))
 
         if len(violated_rules) == 0:
             return None
         # the output will be the same format as the input, but with correct values after the chagne of the rules
-        return (self.synthesize_without_rules(output), violated_rules)
+        return (change_trace, violated_rules)
 
     def syn_w_neg_rule(self, input: dict, rule: Rule):
         # check if this rule is compatible to the input

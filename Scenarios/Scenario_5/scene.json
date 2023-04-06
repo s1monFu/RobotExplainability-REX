@@ -4,7 +4,6 @@
   "verbs": ["execute"],
   "templates": [
     ["verb"],
-    ["verb", "subject"],
-    ["verb", "subject", "from", "from_sub", "to","to_sub"]
+    ["verb", "subject"]
   ]
 }
