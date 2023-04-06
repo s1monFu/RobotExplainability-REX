@@ -1,10 +1,10 @@
 {
   "name": "Scene 5",
-  "desp": "The fifth Scenario, priority in rules. In a laboratory where the robot is in control of the temperature.",
-  "verbs": ["fetch", "grab", "inform", "put", "open", "close"],
+  "desp": "In a laboratory where the robot is in control of the temperature.",
+  "verbs": ["increase", "decrease", "turn off", "turn on"],
   "templates": [
-    "[verb]",
-    "[verb] + [subject]",
-    "[verb] + [subject] + from [somewhere] to [somewhere]"
+    ["verb"],
+    ["verb", "subject"],
+    ["verb", "subject", "from", "from_sub", "to","to_sub"]
   ]
 }

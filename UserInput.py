@@ -46,25 +46,36 @@ class UserInput:
     def get_input_i(self):
         # choose input template
         print('Choose an input template:')
+        str = ""
         for i in range(len(self.input_templates)):
-            print(f"{i+1}. {self.input_templates[i]}")
+            str += f"{i+1}. "
+            for j in range(len(self.input_templates[i])):
+                str += f"[{self.input_templates[i][j]}]"
+                if j != len(self.input_templates[i])-1:
+                    str += " + "
+            str += " "
+        print(str)
         template_index = int(input('Enter template number: '))
         if template_index > len(self.input_templates):
             print("Invalid template number.")
             return self.get_input_i()
-        current_ans = {"index":template_index,"verb": "", "subject": "", "from": "",
-                       "from_sub": "", "to": "", "to_sub": ""}
-        if template_index >= 1:
-            current_ans["verb"] = self.get_verb_input()
-        if template_index >= 2:
-            current_ans["subject"] = self.get_object_input()
-        if template_index == 3:
-            from_ans = self.get_location_input("from")
-            current_ans["from"] = from_ans[0]
-            current_ans["from_sub"] = from_ans[1]
-            to_ans = self.get_location_input("to")
-            current_ans["to"] = to_ans[0]
-            current_ans["to_sub"] = to_ans[1]
+        current_ans = {}
+        current_ans["index"] = template_index
+        for word in self.input_templates[len(self.input_templates)-1]:
+            current_ans[word] = ""
+        for word in self.input_templates[template_index-1]:
+            if word == "verb":
+                current_ans["verb"] = self.get_verb_input()
+            if word == "subject":
+                current_ans["subject"] = self.get_object_input()
+            if word == "from":
+                from_ans = self.get_location_input("from")
+                current_ans["from"] = from_ans[0]
+                current_ans["from_sub"] = from_ans[1]
+            if word == "to":
+                to_ans = self.get_location_input("to")
+                current_ans["to"] = to_ans[0]
+                current_ans["to_sub"] = to_ans[1]
         return current_ans
 
     def get_verb_input(self):
