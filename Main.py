@@ -54,29 +54,14 @@ syn = Synthesizer(scene)
 output = syn.synthesize(userinput.input_answers)
 
 # 5. provide explanation
+down_arrow = "\n  || \n  \/\n"
 for action_wo_rule, (change_trace, rules_violated) in output:
-    # print(f'<<<<<')
-    print(f"< Action without rules > {action_wo_rule}")
-    # print(action_wo_rule)
-    print(f"< Action with rules > {change_trace[len(change_trace)-1]}")
-    # print(action_w_rule)
-    str_trace = "< Rule consideration trace > "
-    str_explanation = ""
+    str_trace = "< Action consideration trace > \n"
+    str_trace += f"({action_wo_rule})"
     for i in range(len(rules_violated)):
-        # if len(rules_violated) == 1:
-        #     str_explanation = f"The only rule that is violated is {rules_violated[i]}"
-        str_trace += f"({rules_violated[i].rule_name}, priority: {rules_violated[i].priority})"
-        if i != len(rules_violated)-1:
-            str_trace += " => "
-    print(str_trace)
-    str_trace = f"< Action change trace > ({action_wo_rule}) => "
-    str_explanation = ""
-    for i in range(len(change_trace)):
-        # if len(rules_violated) == 1:
-        #     str_explanation = f"The only rule that is violated is {rules_violated[i]}"
+        if i != len(rules_violated):
+            str_trace += f"\n  || By {rules_violated[i].rule_name}, priority {rules_violated[i].priority}\n  \/\n"
         str_trace += f"({change_trace[i]})"
-        if i != len(change_trace)-1:
-            str_trace += " => "
     print(str_trace)
     
     # Detail explanation
