@@ -63,10 +63,7 @@ class Synthesizer:
                 output, rule_compatible  = self.syn_w_pos_rule(output, rule)
             elif rule.rule_type == "negative":
                 output, rule_compatible = self.syn_w_neg_rule(output, rule)
-                # print("output>>>>>")
-                # print(output)
-                # print(rule_compatible)
-                # print("output<<<<<")
+
             # if rule not compatible or not violated, just continue
             if not rule_compatible:
                 continue
@@ -78,31 +75,20 @@ class Synthesizer:
 
     def syn_w_neg_rule(self, input: dict, rule: Rule):
         # check if this rule is compatible to the input
-        compatible = self.check_compatibility(input, rule)
+        compatible = self.neg_rule_check_compatibility(input, rule)
         if not compatible:
-            # print("compatible>>>>>")
-            # print(compatible)
-            # print("compatible<<<<<")
             return (input, False)
         rule_violated = False
         # 2. check if the object in input is in the restriction list
-        # check for each value type
-        # if it is, find an alternative in the object's alternative list
-        # if not, then this input is compatible with the rule
-        # print("rule.restriction>>>>>")
-        # print(rule.restriction)
-        # print("rule.restriction<<<<<")
-        # print("input>>>>>")        
-        # print(input)
-        # print("input<<<<<")        
+        ## check for each value type
+        ## if it is, find an alternative in the object's alternative list
+        ## if not, then this input is compatible with the rule     
         for rest in rule.restriction:
             if input[rest]!= None and input[rest].name in rule.restriction[rest]:
                 rule_violated = True
                 # if the input is restricted, different policy for different types of value
                 if rest == "to_sub":
-                    # print("in replace to sub>>>>>")
                     input = self.replace_to_sub(input)
-                    # print("in replace to sub<<<<<")
         return (input, rule_violated)
 
     def replace_to_sub(self, input: dict) -> dict:
@@ -118,10 +104,9 @@ class Synthesizer:
                 input["to_sub"] = obj
                 return input
         
-
-    def check_compatibility(self, input: dict, rule: Rule) -> bool:
+    def neg_rule_check_compatibility(self, input: dict, rule: Rule) -> bool:
         # 1. check if this rule is compatible to the input
-        # if all types in rule are also in the input, then it's compatible
+        # if the type in the rule restriction is also in the input type, then this rule can apply to this input
         # if not, skip this rule
         compatible = False
         for rest in rule.restriction:
@@ -132,51 +117,3 @@ class Synthesizer:
     def syn_w_pos_rule(self, input: dict, rule: Rule):
         # 3. if a restriction has "" in one of the types, that means that if a -
         return (input, False)
-
-    def synthesize_with_rules(self, input: dict):
-        # input is a dictionary of {type: value}
-        # rules is a list of rule, a restriction is a dictionary of {type: [list of values to be restricted]}
-        actions_traces = []
-        original_input = input[1].copy()
-        violated_rules = set()
-        action_trace = ""
-        for rule in self.rules_queue:
-            notChanged = True
-            restriction = rule.restriction
-
-            # Identify if the input is applicable for the rule
-            all = True
-            # print(input[1])
-            allcnt = 0
-            violated_keys = []
-            for key in restriction:
-                # if the value in input is not in the restriction list
-                if original_input[key] == "":
-                    all = False
-                if original_input[key] != "" and original_input[key] not in restriction[key]:
-                    # print("It's setting all to false")
-                    # print(original_input)
-                    # print(restriction)
-                    allcnt += 1
-                else:
-                    violated_keys.append(key)
-                # if the restriction has more types than the input
-
-            if all == False or allcnt == len(restriction):
-                # print("It's in all continue")
-                continue
-
-            # apply rules
-            for key in violated_keys:
-                violated_rules.add(rule.rid)
-                if notChanged:
-                    r = random.randint(0, len(self.input_options[key])-1)
-                    # to avoid the same value as before
-                    while input[1][key] == self.input_options[key][r] or self.input_options[key][r] in restriction[key]:
-                        r = random.randint(0, len(self.input_options[key])-1)
-                    input[1][key] = self.input_options[key][r]
-                    notChanged = False
-            action_trace = self.synthesize_without_rules(input)
-        return (list(violated_rules), action_trace)
-
-     # to fix a potential bug: a modified input might be changed to a restricted value in another rule
