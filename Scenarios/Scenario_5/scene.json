@@ -1,7 +1,7 @@
 {
   "name": "Scene 5",
   "desp": "In a laboratory where the robot is in control of the temperature.",
-  "verbs": ["increase", "decrease", "turn off", "turn on"],
+  "verbs": ["execute"],
   "templates": [
     ["verb"],
     ["verb", "subject"],

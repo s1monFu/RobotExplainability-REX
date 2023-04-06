@@ -2,11 +2,19 @@
   "objects": [
     {
       "id": 1,
-      "name": "AC",
+      "name": "turn on heater",
       "type": "grabable",
-      "desp": "The AC in the lab that controls whether if the lab is heating or freezing",
+      "desp": "increase the temperature in the lab",
       "location": "lab",
-      "alternatives": []
+      "alternatives": [2]
+    },
+    {
+      "id": 2,
+      "name": "turn on AC",
+      "type": "grabable",
+      "desp": "decrease the temperature in the lab",
+      "location": "lab",
+      "alternatives": [1]
     }
   ]
 }

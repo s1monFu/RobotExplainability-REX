@@ -89,9 +89,34 @@ class Synthesizer:
             if input[rest]!= None and input[rest]!="" and input[rest].name in rule.restriction[rest]:
                 rule_violated = True
                 # if the input is restricted, different policy for different types of value
+                if rest == "verb":
+                    input = self.replace_verb(input)
+                if rest == "subject":
+                    input = self.replace_subject(input)
+                if rest == "to":
+                    input = self.replace_to(input)
                 if rest == "to_sub":
                     input = self.replace_to_sub(input)
         return (input, rule_violated)
+
+    def replace_subject(self,input: dict):
+        # if no alternatives to replace
+        if len(input["subject"].alternatives) == 0:
+            input["subject"] = ""
+            return input
+        # the first in the alternative list is the choice
+        alt_idx = input["subject"].alternatives[0]
+        # find the object in the overall object list
+        for obj in self.objects:
+            if obj.id == alt_idx:
+                input["subject"] = obj
+                return input
+
+    def replace_verb(self,input: dict):
+        pass
+
+    def replace_to(self, input:dict):
+        pass
 
     def replace_to_sub(self, input: dict) -> dict:
         # if no alternatives to replace
