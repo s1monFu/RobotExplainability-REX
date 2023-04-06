@@ -60,7 +60,7 @@ for action_wo_rule, (change_trace, rules_violated) in output:
     str_trace += f"({action_wo_rule})"
     for i in range(len(rules_violated)):
         if i != len(rules_violated):
-            str_trace += f"\n  || By {rules_violated[i].rule_name}, priority {rules_violated[i].priority}\n  \/\n"
+            str_trace += f"\n  || By {rules_violated[i].rule_name}, priority {rules_violated[i].priority}, {rules_violated[i].desp}\n  \/\n"
         str_trace += f"({change_trace[i]})"
     print(str_trace)
     

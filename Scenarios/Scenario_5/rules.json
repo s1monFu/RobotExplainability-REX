@@ -2,19 +2,19 @@
   "rules": [
     {
       "rule_name": "workers' rule",
-      "desp": "For worker's comfort, the heating should be turned on",
+      "desp": "for worker's comfort, the heating should be turned on",
       "rule_type": "negative",
       "restriction": {
-        "subject": ["turn on heater"]
+        "subject": ["turn on AC"]
       },
       "priority": 1
     },
     {
       "rule_name": "lab's rule",
-      "desp": "To preserve the specimen in the laboratory, the freezing should be turned on",
+      "desp": "to preserve the specimen in the laboratory, the freezing should be turned on",
       "rule_type": "negative",
       "restriction": {
-        "subject": ["turn on AC"]
+        "subject": ["turn on heater"]
       },
       "priority": 2
 
