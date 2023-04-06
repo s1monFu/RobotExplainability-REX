@@ -41,7 +41,6 @@ class UserInput:
         else:
             print("Invalid input mode")
             return None
-        
 
     def get_input_i(self):
         # choose input template
@@ -67,7 +66,7 @@ class UserInput:
             if word == "verb":
                 current_ans["verb"] = self.get_verb_input()
             if word == "subject":
-                current_ans["subject"] = self.get_object_input()
+                current_ans["subject"] = self.get_subject_input()
             if word == "from":
                 from_ans = self.get_location_input("from")
                 current_ans["from"] = from_ans[0]
@@ -124,7 +123,7 @@ class UserInput:
     ## Right now, the object and the location does not really match
     ## a user can pick an object that's not in the from location
     ## future work: disallow user to choose from location, and automatically set from to the current location of the object
-    def get_object_input(self):
+    def get_subject_input(self):
         print(f'Choose a grabable object:')
         str = ""
         for i in range(len(self.grabable)):
@@ -133,7 +132,7 @@ class UserInput:
         obj_index = int(input('Enter object number: '))
         if obj_index > len(self.grabable):
             print("Invalid object number.")
-            return self.get_object_input()
+            return self.get_subject_input()
         return self.grabable[obj_index-1]
 
     def get_input_b(self, file_name: str):

@@ -45,6 +45,7 @@ class Scenario:
         with open(os.path.join(path, "objects.json"), 'r') as f:
             data = json.load(f)
             for obj in data["objects"]:
+                new_obj = None
                 for loc in self.locations:
                     if loc.name == obj["location"]:
                         new_obj = Object.Object(
@@ -55,6 +56,12 @@ class Scenario:
                             loc.grabable.append(new_obj)
                         else:
                             loc.ungrabable.append(new_obj)
+                # If the new object does not have a corresponding location
+                if new_obj == None:
+                    new_obj = Object.Object(
+                            obj["id"], obj["type"], obj["name"], obj["desp"], Location.Location("Not Applicable", "Not Applicable"), obj["alternatives"])
+                    self.objects.append(new_obj)
+                    
 
     def __str__(self) -> str:
         rules = ""

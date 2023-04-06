@@ -2,43 +2,11 @@
   "objects": [
     {
       "id": 1,
-      "name": "grocery",
+      "name": "AC",
       "type": "grabable",
-      "desp": "grocery bought from the store",
-      "location": "garage",
-      "alternatives": [1]
-    },
-    {
-      "id": 2,
-      "name": "cup",
-      "type": "grabable",
-      "desp": "a cup in the kitchen",
-      "location": "kitchen",
+      "desp": "The AC in the lab that controls whether if the lab is heating or freezing",
+      "location": "lab",
       "alternatives": []
-    },
-    {
-      "id": 3,
-      "name": "counter",
-      "type": "ungrabable",
-      "desp": "the counter in the kitchen",
-      "location": "kitchen",
-      "alternatives": [4,5]
-    },
-    {
-      "id": 4,
-      "name": "floor",
-      "type": "ungrabable",
-      "desp": "kitchen floor",
-      "location": "kitchen",
-      "alternatives": [3]
-    },
-    {
-      "id": 5,
-      "name": "sink",
-      "type": "ungrabable",
-      "desp": "the sink in the kitchen",
-      "location": "kitchen",
-      "alternatives": [3]
     }
   ]
 }

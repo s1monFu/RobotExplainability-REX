@@ -1,16 +1,12 @@
 {
   "locations": [
     {
-      "name": "garage",
-      "desp": "This is the garage"
+      "name": "heat",
+      "desp": "heat AC mode in the lab"
     },
     {
-      "name": "kitchen",
-      "desp": "This is the kitchen"
-    },
-    {
-      "name": "living room",
-      "desp": "This is the living room"
+      "name": "freezing",
+      "desp": "freezing mode in the lab"
     }
   ]
 }

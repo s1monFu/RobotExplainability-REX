@@ -1,5 +1,5 @@
 # Robot Explanbility (REX) - A tool for explaining robot actions
-# run it in interactive mode with python3 Main.py i
+# run it in interactive mode with python3 Main.py i x, where x is the number of scenario to load
 # or run it in batch mode with python3 Main.py b filename
 
 # 1. keywords alternatives: a preferred object if the action conflicts with the rule.
@@ -16,12 +16,15 @@ import sys
 import os
 # 1. load scenario
 scene = Scenario()
-scene.load(1)
+load_num = sys.argv[2]
+scene.load(load_num)
+# print(scene.objects)
+# for obj in scene.objects:
+#     print(obj.name)
 
 # Explain Scenario
 print(f"Scenario: {scene.name}")
 print(scene.desp)
-print("Locations and available objects:")
 for loc in scene.locations:
     print(f'{loc.name}')
     print(f'- Grabable objects:')
