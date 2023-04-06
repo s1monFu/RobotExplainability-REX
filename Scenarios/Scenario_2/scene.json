@@ -1,6 +1,6 @@
 {
-  "name": "Scene 1",
-  "desp": "This scenario is at mom's home. The kitchen is under renovation.",
+  "name": "Scene 2",
+  "desp": "The second Scenario",
   "verbs": ["fetch", "grab", "inform", "put", "open", "close"],
   "templates": [
     "[verb]",

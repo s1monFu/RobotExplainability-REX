@@ -18,6 +18,20 @@ import os
 scene = Scenario()
 scene.load(1)
 
+# Explain Scenario
+print(f"Scenario: {scene.name}")
+print(scene.desp)
+print("Locations and available objects:")
+for loc in scene.locations:
+    print(f'{loc.name}')
+    print(f'- Grabable objects:')
+    for obj in loc.grabable:
+        print(f' - {obj.name}')
+    print(f'- Ungrabable objects: ')
+    for obj in loc.ungrabable:
+        print(f' - {obj.name}')
+    print(">>>>>")
+
 # 2. take in user input
 userinput = UserInput()
 userinput.load_from_scene(scene)

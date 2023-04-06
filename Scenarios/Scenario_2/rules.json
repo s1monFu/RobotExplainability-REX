@@ -2,7 +2,7 @@
   "rules": [
     {
       "rule_name": "mom's rule",
-      "desp": "mom said the painting of kitchen counter is in progress, so nobody should touch it without permission",
+      "desp": "mom said painting of kitchen counter is in progress, so nobody should touch",
       "rule_type": "negative",
       "restriction": {
         "from_sub":["counter"],

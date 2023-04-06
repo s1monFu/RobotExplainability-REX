@@ -70,6 +70,8 @@ class Synthesizer:
             # rule violated
             violated_rules.append(rule)
 
+        if len(violated_rules) == 0:
+            return None
         # the output will be the same format as the input, but with correct values after the chagne of the rules
         return (self.synthesize_without_rules(output), violated_rules)
 

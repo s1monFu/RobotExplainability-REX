@@ -1,6 +1,6 @@
 {
-  "name": "Scene 1",
-  "desp": "This scenario is at mom's home. The kitchen is under renovation.",
+  "name": "Scene 5",
+  "desp": "The fifth Scenario, priority in rules. In a laboratory where the robot is in control of the temperature.",
   "verbs": ["fetch", "grab", "inform", "put", "open", "close"],
   "templates": [
     "[verb]",
