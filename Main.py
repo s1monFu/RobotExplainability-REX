@@ -54,9 +54,8 @@ syn = Synthesizer(scene)
 output = syn.synthesize(userinput.input_answers)
 
 # 5. provide explanation
-down_arrow = "\n  || \n  \/\n"
 for action_wo_rule, (change_trace, rules_violated) in output:
-    str_trace = "< Action consideration trace > \n"
+    str_trace = "\n<<< Action consideration trace >>> \n"
     str_trace += f"({action_wo_rule})"
     for i in range(len(rules_violated)):
         if i != len(rules_violated):
