@@ -90,7 +90,7 @@ class UserInput:
         return self.verbs[verb_index-1]
 
     def get_location_input(self, location_type: str):
-        print(f'Choose a {location_type} location:')
+        print(f'Choose a {location_type} choice:')
         str = ""
         for i in range(len(self.locations)):
             str += f"{i+1}. {self.locations[i].name} "
@@ -104,7 +104,7 @@ class UserInput:
         if len(self.locations[loc_index-1].ungrabable) == 0:
             return (self.locations[loc_index-1], None)
         
-        print(f'Choose a {location_type} sub-location: ')
+        print(f'Choose a {location_type} sub choice: ')
         str = "0. Not applicable "
         for i in range(len(self.locations[loc_index-1].ungrabable)):
             str += f"{i+1}. {self.locations[loc_index-1].ungrabable[i].name} "

@@ -86,7 +86,7 @@ class Synthesizer:
         ## if it is, find an alternative in the object's alternative list
         ## if not, then this input is compatible with the rule     
         for rest in rule.restriction:
-            if input[rest]!= None and input[rest].name in rule.restriction[rest]:
+            if input[rest]!= None and input[rest]!="" and input[rest].name in rule.restriction[rest]:
                 rule_violated = True
                 # if the input is restricted, different policy for different types of value
                 if rest == "to_sub":
