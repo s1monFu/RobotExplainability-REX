@@ -1,6 +1,7 @@
 import random
 from Scenario import Scenario
 from Rule import Rule
+from Object import Object
 
 
 class Synthesizer:
@@ -145,4 +146,21 @@ class Synthesizer:
 
     def syn_w_pos_rule(self, input: dict, rule: Rule):
         # 3. if a restriction has "" in one of the types, that means that if a -
-        return (input, False)
+        # compatible = self.neg_rule_check_compatibility(input, rule)
+        # if not compatible:
+        #     print(">>>>>returns false here")
+        #     return (input, False)
+        rule_violated = False
+        for rest in rule.restriction:
+            if input[rest]== None or input[rest] == "" :
+                rule_violated = True
+                if rest == "to_sub":
+                    input = self.fill_to_sub(input, rule)
+        return (input, rule_violated)
+    
+    def fill_to_sub(self,input: dict, rule: Rule):
+        name = rule.restriction["to_sub"][0]
+        for obj in self.objects:
+            if obj.name == name:
+                input["to_sub"] = obj
+        return input

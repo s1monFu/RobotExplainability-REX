@@ -39,6 +39,14 @@
       "desp": "the sink in the kitchen",
       "location": "kitchen",
       "alternatives": [3]
+    },
+    {
+      "id": 5,
+      "name": "chair",
+      "type": "ungrabable",
+      "desp": "the chair in the kitchen",
+      "location": "kitchen",
+      "alternatives": [3]
     }
   ]
 }

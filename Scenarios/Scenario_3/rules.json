@@ -1,18 +1,8 @@
 {
   "rules": [
     {
-      "rule_name": "mom's rule",
-      "desp": "mom said the painting of kitchen counter is in progress, so nobody should touch it without permission",
-      "rule_type": "negative",
-      "restriction": {
-        "from_sub":["counter"],
-        "to_sub": ["counter"]
-      },
-      "priority": 2
-    },
-    {
-      "rule_name": "2nd rule",
-      "desp": "if ",
+      "rule_name": "Kitchen rule",
+      "desp": "robot learns that user usually organizes groceries after putting them on chair",
       "rule_type": "positive",
       "restriction": {
         "to_sub": ["chair"]

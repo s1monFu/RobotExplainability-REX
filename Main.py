@@ -8,7 +8,6 @@
 # 3. may conflict with a lower priority rule, because it has to satisfy a rule with priority
 
 
-
 from Scenario import Scenario
 from UserInput import UserInput
 from Synthesizer import Synthesizer
@@ -39,7 +38,7 @@ scene.load(load_num)
 userinput = UserInput()
 userinput.load_from_scene(scene)
 
-## choose input mode
+# choose input mode
 input_mode = sys.argv[1]
 if input_mode not in ['i', 'b']:
     print("Wrong commandline argumnt")
@@ -52,9 +51,14 @@ userinput.get_input(input_mode, file_name)
 # 4. run synthesizer
 syn = Synthesizer(scene)
 output = syn.synthesize(userinput.input_answers)
-
 # 5. provide explanation
-for action_wo_rule, (change_trace, rules_violated) in output:
+for action_wo_rule, traces in output:
+    if traces == None:
+        print(
+            f"\nAction Trace: {action_wo_rule}\n<<<Action does not violate any rules>>> \n")
+        continue
+    change_trace = traces[0]
+    rules_violated = traces[1]
     str_trace = "\n<<< Action consideration trace >>> \n"
     str_trace += f"({action_wo_rule})"
     for i in range(len(rules_violated)):
@@ -62,5 +66,5 @@ for action_wo_rule, (change_trace, rules_violated) in output:
             str_trace += f"\n  || By {rules_violated[i].rule_name}, priority {rules_violated[i].priority}, {rules_violated[i].desp}\n  \/\n"
         str_trace += f"({change_trace[i]})"
     print(str_trace)
-    
+
     # Detail explanation
