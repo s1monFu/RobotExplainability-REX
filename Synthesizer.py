@@ -65,7 +65,13 @@ class Synthesizer:
                 output, rule_compatible  = self.syn_w_pos_rule(output, rule)
             elif rule.rule_type == "negative":
                 output, rule_compatible = self.syn_w_neg_rule(output, rule)
-
+            elif rule.rule_type == "failure":
+                output, rule_compatible = self.syn_w_failure_rule(output, rule)
+                # special case for failure rules. Terminate the synthesizing process and output something entirely different
+                if rule_compatible:
+                    violated_rules.append(rule)
+                    change_trace.append(output)
+                    return (change_trace, violated_rules)
             # if rule not compatible or not violated, just continue
             if not rule_compatible:
                 continue
@@ -164,3 +170,18 @@ class Synthesizer:
             if obj.name == name:
                 input["to_sub"] = obj
         return input
+
+    # If a failure rule is violated, then the synthesizing process is terminated
+    # Returns a perdefined output that's different from the usual output format
+    def syn_w_failure_rule(self, input:dict, rule: Rule):
+        compatible = self.neg_rule_check_compatibility(input, rule)
+        if not compatible:
+            return (input, False)
+        
+        rule_violated = False
+        for rest in rule.restriction:
+            if input[rest]!= None and input[rest]!="" and input[rest].name in rule.restriction[rest]:
+                    rule_violated = True
+                    return (rule.failure_action, rule_violated)
+            
+        return (input, rule_violated)

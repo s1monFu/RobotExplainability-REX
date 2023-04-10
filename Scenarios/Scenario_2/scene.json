@@ -1,10 +1,11 @@
 {
   "name": "Scene 2",
-  "desp": "The second Scenario",
+  "desp": "This scenario is at mom's home. The garage stairs are high.",
   "verbs": ["fetch", "grab", "inform", "put", "open", "close"],
   "templates": [
-    "[verb]",
-    "[verb] + [subject]",
-    "[verb] + [subject] + from [somewhere] to [somewhere]"
+    ["verb"],
+    ["verb", "subject"],
+    ["verb", "subject", "from", "from_sub", "to","to_sub"]
   ]
+  
 }

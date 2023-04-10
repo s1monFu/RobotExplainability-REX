@@ -31,8 +31,12 @@ class Scenario:
         with open(os.path.join(path, "rules.json"), 'r') as f:
             data = json.load(f)
             for rule in data["rules"]:
-                self.rules.append(Rule.Rule(
-                    rule["rule_name"], rule["desp"], rule["rule_type"], rule["restriction"], rule["priority"]))
+                if rule["rule_type"] == "failure":
+                    self.rules.append(Rule.Rule(
+                        rule["rule_name"], rule["desp"], rule["rule_type"], rule["restriction"], rule["priority"], rule["failure_action"]))
+                else:
+                    self.rules.append(Rule.Rule(
+                        rule["rule_name"], rule["desp"], rule["rule_type"], rule["restriction"], rule["priority"]))
 
         # load locations
         with open(os.path.join(path, "locations.json"), 'r') as f:

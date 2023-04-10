@@ -1,23 +1,15 @@
 {
   "rules": [
     {
-      "rule_name": "mom's rule",
-      "desp": "mom said painting of kitchen counter is in progress, so nobody should touch",
-      "rule_type": "negative",
+      "rule_name": "preconditioned rule",
+      "desp": "robot cannot move over garage doorstep",
+      "rule_type": "failure",
       "restriction": {
-        "from_sub":["counter"],
-        "to_sub": ["counter"]
+        "from":["garage"],
+        "to":["garage"]
       },
-      "priority": 2
-    },
-    {
-      "rule_name": "2nd rule",
-      "desp": "if ",
-      "rule_type": "positive",
-      "restriction": {
-        "to_sub": ["chair"]
-      },
-      "priority": 1
+      "priority": 1,
+      "failure_action": "stops in front of the garage"
     }
   ]
 }
