@@ -1,15 +1,13 @@
 {
   "rules": [
     {
-      "rule_name": "preconditioned rule",
-      "desp": "robot cannot move over garage doorstep",
-      "rule_type": "failure",
+      "rule_name": "premade rule",
+      "desp": "The package is too heavy for a robot to carry.",
+      "rule_type": "negative",
       "restriction": {
-        "from":["garage"],
-        "to":["garage"]
+        "subject":["all groceries"]
       },
-      "priority": 1,
-      "failure_action": "stops in front of the garage"
+      "priority": 1
     }
   ]
 }

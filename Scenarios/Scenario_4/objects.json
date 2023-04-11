@@ -2,18 +2,18 @@
   "objects": [
     {
       "id": 1,
-      "name": "grocery",
+      "name": "all groceries",
       "type": "grabable",
-      "desp": "grocery bought from the store",
-      "location": "garage",
-      "alternatives": [1]
+      "desp": "all groceries bought from the store",
+      "location": "porch",
+      "alternatives": [2]
     },
     {
       "id": 2,
-      "name": "cup",
+      "name": "a portion of the groceries",
       "type": "grabable",
-      "desp": "a cup in the kitchen",
-      "location": "kitchen",
+      "desp": "some groceries",
+      "location": "porch",
       "alternatives": []
     },
     {

@@ -9,8 +9,12 @@
       "desp": "This is the kitchen"
     },
     {
-      "name": "living room",
-      "desp": "This is the living room"
+      "name": "porch",
+      "desp": "This is the porch"
+    },
+    {
+      "name": "foyer",
+      "desp": "This is the foyer"
     }
   ]
 }
