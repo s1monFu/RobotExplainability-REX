@@ -55,7 +55,7 @@ output = syn.synthesize(userinput.input_answers)
 for action_wo_rule, traces in output:
     if traces == None:
         print(
-            f"\nAction Trace: {action_wo_rule}\n<<<Action does not violate any rules>>> \n")
+            f"\n<<<Action does not violate any rules>>> \nAction Trace: {action_wo_rule}\n")
         continue
     change_trace = traces[0]
     rules_violated = traces[1]
