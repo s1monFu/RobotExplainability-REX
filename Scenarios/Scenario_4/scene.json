@@ -1,0 +1,11 @@
+{
+  "name": "Scene 1",
+  "desp": "This scenario is at mom's home. The kitchen is under renovation.",
+  "verbs": ["move", "grab", "inform", "put", "open", "close"],
+  "templates": [
+    ["verb"],
+    ["verb", "subject"],
+    ["verb", "subject", "from", "from_sub", "to","to_sub"]
+  ]
+  
+}

@@ -1,0 +1,15 @@
+{
+  "rules": [
+    {
+      "rule_name": "preconditioned rule",
+      "desp": "robot cannot move over garage doorstep",
+      "rule_type": "failure",
+      "restriction": {
+        "from":["garage"],
+        "to":["garage"]
+      },
+      "priority": 1,
+      "failure_action": "stops in front of the garage"
+    }
+  ]
+}

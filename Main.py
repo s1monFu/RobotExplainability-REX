@@ -59,7 +59,7 @@ for action_wo_rule, traces in output:
         continue
     change_trace = traces[0]
     rules_violated = traces[1]
-    str_trace = "\n<<< Action consideration trace >>> \n"
+    str_trace = "\n<<< Action Consideration Trace >>> \n"
     str_trace += f"({action_wo_rule})"
     for i in range(len(rules_violated)):
         if i != len(rules_violated):
